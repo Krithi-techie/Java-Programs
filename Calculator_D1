@@ -6,7 +6,6 @@ public class Calculator {
 
         System.out.println("Welcome to the Basic Calculator!");
 
-        // Get input from the user
         System.out.print("Enter the first number: ");
         double num1 = sc.nextDouble();
 
@@ -16,7 +15,6 @@ public class Calculator {
         System.out.print("Enter the operator (+, -, *, /): ");
         char operator = sc.next().charAt(0);
 
-        // Perform the calculation based on the operator
         double result = 0;
         boolean isValidOperator = true;
 
@@ -31,7 +29,6 @@ public class Calculator {
                 result = num1 * num2;
                 break;
             case '/':
-                // Check for division by zero
                 if (num2 != 0) {
                     result = num1 / num2;
                 } else {
