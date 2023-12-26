@@ -1,0 +1,31 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter String:");
+        String inputString = sc.nextLine();
+
+        StringBuilder compressed = new StringBuilder();
+        int count = 1;
+
+        for (int i = 1; i < inputString.length(); i++) {
+            if (inputString.charAt(i) == inputString.charAt(i - 1)) {
+                count++;
+            } else {
+                compressed.append(inputString.charAt(i - 1));
+                if (count > 1) {
+                    compressed.append(count);
+                }
+                count = 1;
+            }
+        }
+
+        compressed.append(inputString.charAt(inputString.length() - 1));
+        if (count > 1) {
+            compressed.append(count);
+        }
+
+        System.out.println("Compressed String: " + compressed.toString());
+    }
+}
