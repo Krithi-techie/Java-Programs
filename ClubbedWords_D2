@@ -1,0 +1,105 @@
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the number of words: ");
+        int n = scanner.nextInt();
+        String[] words = new String[n];
+        System.out.println("Enter the words:");
+        for (int i = 0; i < n; i++) {
+            words[i] = scanner.next();
+        }
+
+        String[] clubbedWords = findClubbedWords(words);
+        System.out.println("Clubbed Words:");
+        printArray(clubbedWords);
+
+        scanner.close();
+    }
+
+    private static String[] findClubbedWords(String[] words) {
+        TrieNode root = new TrieNode();
+
+        for (String word : words) {
+            insertWord(root, word);
+        }
+
+        int n = words.length;
+        String[] clubbedWords = new String[n];
+        int count = 0;
+
+        for (String word : words) {
+            if (isClubbedWord(root, word, 0, 0)) {
+                clubbedWords[count++] = word;
+            }
+        }
+
+        return resizeArray(clubbedWords, count);
+    }
+
+    private static void insertWord(TrieNode root, String word) {
+        TrieNode node = root;
+
+        for (char ch : word.toCharArray()) {
+            int index = ch - 'a';
+
+            if (node.children[index] == null) {
+                node.children[index] = new TrieNode();
+            }
+
+            node = node.children[index];
+        }
+
+        node.isEndOfWord = true;
+    }
+
+    private static boolean isClubbedWord(TrieNode root, String word, int start, int count) {
+        TrieNode node = root;
+
+        for (int i = start; i < word.length(); i++) {
+            int index = word.charAt(i) - 'a';
+
+            if (node.children[index] == null) {
+                return false;
+            }
+
+            node = node.children[index];
+
+            if (node.isEndOfWord) {
+                if (i == word.length() - 1) {
+                    return count >= 1; 
+                }
+
+                if (isClubbedWord(root, word, i + 1, count + 1)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private static String[] resizeArray(String[] array, int newSize) {
+        String[] newArray = new String[newSize];
+        System.arraycopy(array, 0, newArray, 0, newSize);
+        return newArray;
+    }
+
+    private static void printArray(String[] array) {
+        for (String str : array) {
+            System.out.println(str);
+        }
+    }
+
+    static class TrieNode {
+        TrieNode[] children;
+        boolean isEndOfWord;
+
+        TrieNode() {
+            children = new TrieNode[26];
+            isEndOfWord = false;
+        }
+    }
+}
