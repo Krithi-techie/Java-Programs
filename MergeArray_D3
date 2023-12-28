@@ -1,0 +1,59 @@
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the array elements (space-separated): ");
+        String[] inputArray = scanner.nextLine().split(" ");
+        int[] array = Arrays.stream(inputArray).mapToInt(Integer::parseInt).toArray();
+
+        System.out.print("Enter the partition size: ");
+        int partitionSize = scanner.nextInt();
+
+        scanner.nextLine();
+
+        System.out.print("Enter the partition order (space-separated): ");
+        int[] partitionOrder = Arrays.stream(scanner.nextLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+
+        int[][] partitions = partitionArray(array, partitionSize);
+        int[] mergedArray = mergePartitions(partitions, partitionOrder);
+
+        System.out.println("Merged Array: " + Arrays.toString(mergedArray));
+
+        scanner.close();
+    }
+
+    private static int[][] partitionArray(int[] array, int partitionSize) {
+        int length = array.length;
+        int numPartitions = (int) Math.ceil((double) length / partitionSize);
+
+        int[][] partitions = new int[numPartitions][];
+        for (int i = 0; i < numPartitions; i++) {
+            int start = i * partitionSize;
+            int end = Math.min(start + partitionSize, length);
+            partitions[i] = Arrays.copyOfRange(array, start, end);
+        }
+
+        return partitions;
+    }
+
+    private static int[] mergePartitions(int[][] partitions, int[] partitionOrder) {
+        int totalLength = Arrays.stream(partitions).mapToInt(partition -> partition.length).sum();
+        int[] mergedArray = new int[totalLength];
+
+        int index = 0;
+        for (int order : partitionOrder) {
+            for (int i = 0; i < partitions.length; i++) {
+                if (order == partitions[i].length) {
+                    System.arraycopy(partitions[i], 0, mergedArray, index, partitions[i].length);
+                    index += partitions[i].length;
+                    break;
+                }
+            }
+        }
+
+        return mergedArray;
+    }
+}
