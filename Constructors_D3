@@ -1,0 +1,21 @@
+public class ConstructorExample {
+
+    public ConstructorExample() {
+        System.out.println("No arguments constructor called");
+    }
+    public ConstructorExample(String message) {
+        System.out.println("Default constructor called with message: " + message);
+    }
+    public ConstructorExample(int number) {
+        System.out.println("Parameterized constructor with one int parameter called. Value: " + number);
+    }
+    public ConstructorExample(String name, int age) {
+        System.out.println("Parameterized constructor with two parameters called. Name: " + name + ", Age: " + age);
+    }
+    public static void main(String[] args) {
+        ConstructorExample obj1 = new ConstructorExample();
+        ConstructorExample obj2 = new ConstructorExample("Hello, Constructors!");
+        ConstructorExample obj3 = new ConstructorExample(42);
+        ConstructorExample obj4 = new ConstructorExample("Krithiga", 20);
+    }
+}
