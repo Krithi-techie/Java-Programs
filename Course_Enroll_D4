@@ -1,0 +1,90 @@
+import java.util.Scanner;
+
+class Person {
+    protected String name;
+
+    public Person(String name) {
+        this.name = name;
+    }
+}
+
+class Student extends Person {
+    public Student(String name) {
+        super(name);
+    }
+}
+
+class Professor extends Person {
+    public Professor(String name) {
+        super(name);
+    }
+}
+
+class Course {
+    private String courseName;
+    private String[] prerequisites;
+    private Student[] enrolledStudents;
+    private int studentCount;
+
+    public Course(String courseName, String[] prerequisites) {
+        this.courseName = courseName;
+        this.prerequisites = prerequisites;
+        this.enrolledStudents = new Student[10]; // Assuming a maximum of 10 students per course
+        this.studentCount = 0;
+    }
+
+    public void enrollStudent(Student student) {
+        if (hasCompletedPrerequisites(student)) {
+            if (studentCount < enrolledStudents.length) {
+                enrolledStudents[studentCount++] = student;
+                System.out.println("Enrolled " + student.name + " in " + courseName);
+            } else {
+                System.out.println("Course is full. Cannot enroll more students.");
+            }
+        } else {
+            System.out.println(student.name + " cannot be enrolled in " + courseName + " due to missing prerequisites.");
+        }
+    }
+
+    public void displayEnrolledStudents() {
+        System.out.println("Enrolled Students in " + courseName + ":");
+        for (int i = 0; i < studentCount; i++) {
+            System.out.println("Student Name: " + enrolledStudents[i].name);
+        }
+    }
+
+    private boolean hasCompletedPrerequisites(Student student) {
+        for (String prerequisite : prerequisites) {
+            // Simulating the check for completed prerequisites (e.g., checking a database)
+            System.out.print("Enter 'Y' if " + student.name + " has completed prerequisite '" + prerequisite + "': ");
+            Scanner scanner = new Scanner(System.in);
+            String input = scanner.nextLine();
+            if (!input.equalsIgnoreCase("Y")) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+public class UniversityEnrollmentSystem {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        Student student1 = new Student("John Doe");
+        Student student2 = new Student("Jane Smith");
+        Professor professor1 = new Professor("Dr. Johnson");
+
+        String[] prerequisitesMath = {"Intro to Calculus", "Algebra"};
+        Course mathCourse = new Course("Mathematics 101", prerequisitesMath);
+
+        System.out.println("Enroll students in Mathematics 101:");
+        mathCourse.enrollStudent(student1);
+        mathCourse.enrollStudent(student2);
+
+        System.out.println("\nDisplay Enrolled Students in Mathematics 101:");
+        mathCourse.displayEnrolledStudents();
+
+        scanner.close();
+    }
+}
