@@ -1,0 +1,76 @@
+import java.util.Scanner;
+
+class Vehicle {
+    protected double speed;
+
+    public Vehicle(double speed) {
+        this.speed = speed;
+    }
+
+    public double calculateSpeed() {
+        return speed;
+    }
+}
+
+class Car extends Vehicle {
+    private int numPassengers;
+
+    public Car(double speed, int numPassengers) {
+        super(speed);
+        this.numPassengers = numPassengers;
+    }
+
+    @Override
+    public double calculateSpeed() {
+        return super.calculateSpeed() * numPassengers;
+    }
+}
+
+class Motorcycle extends Vehicle {
+    private int numWheels;
+
+    public Motorcycle(double speed, int numWheels) {
+        super(speed);
+        this.numWheels = numWheels;
+    }
+
+    @Override
+    public double calculateSpeed() {
+        return super.calculateSpeed() * numWheels;
+    }
+}
+
+public class VehicleTest {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter speed for Car: ");
+        double carSpeed = scanner.nextDouble();
+        System.out.print("Enter number of passengers for Car: ");
+        int carPassengers = scanner.nextInt();
+
+        System.out.print("Enter speed for Motorcycle: ");
+        double motorcycleSpeed = scanner.nextDouble();
+        System.out.print("Enter number of wheels for Motorcycle: ");
+        int motorcycleWheels = scanner.nextInt();
+
+        Car car = new Car(carSpeed, carPassengers);
+        Motorcycle motorcycle = new Motorcycle(motorcycleSpeed, motorcycleWheels);
+
+        double carEffectiveSpeed = car.calculateSpeed();
+        double motorcycleEffectiveSpeed = motorcycle.calculateSpeed();
+
+        System.out.println("Car Speed: " + carEffectiveSpeed);
+        System.out.println("Motorcycle Speed: " + motorcycleEffectiveSpeed);
+
+        if (carEffectiveSpeed > motorcycleEffectiveSpeed) {
+            System.out.println("The car has the highest effective speed.");
+        } else if (motorcycleEffectiveSpeed > carEffectiveSpeed) {
+            System.out.println("The motorcycle has the highest effective speed.");
+        } else {
+            System.out.println("Both vehicles have the same effective speed.");
+        }
+
+        scanner.close();
+    }
+}
