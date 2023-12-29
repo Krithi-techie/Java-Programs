@@ -1,0 +1,66 @@
+class Employee {
+    protected String name;
+    protected int employeeID;
+
+    public Employee(String name, int employeeID) {
+        this.name = name;
+        this.employeeID = employeeID;
+    }
+
+    public double calculateSalary() {
+        return 50000.0;
+    }
+}
+
+class Manager extends Employee {
+    private double bonusPercentage;
+
+    public Manager(String name, int employeeID, double bonusPercentage) {
+        super(name, employeeID);
+        this.bonusPercentage = bonusPercentage;
+    }
+
+    @Override
+    public double calculateSalary() {
+        double basicSalary = super.calculateSalary();
+        return basicSalary + (basicSalary * bonusPercentage / 100);
+    }
+}
+
+class Developer extends Employee {
+    private String programmingLanguage;
+
+    public Developer(String name, int employeeID, String programmingLanguage) {
+        super(name, employeeID);
+        this.programmingLanguage = programmingLanguage;
+    }
+
+    public String getProgrammingLanguage() {
+        return programmingLanguage;
+    }
+
+    @Override
+    public double calculateSalary() {
+        double basicSalary = super.calculateSalary();
+        return basicSalary + 2000; // Additional allowance for developers
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Manager manager = new Manager("John Doe", 101, 15.0);
+        Developer developer = new Developer("Jane Smith", 201, "Java");
+
+        System.out.println("Manager Details:");
+        System.out.println("Name: " + manager.name);
+        System.out.println("Employee ID: " + manager.employeeID);
+        System.out.println("Total Salary: $" + manager.calculateSalary());
+        System.out.println();
+
+        System.out.println("Developer Details:");
+        System.out.println("Name: " + developer.name);
+        System.out.println("Employee ID: " + developer.employeeID);
+        System.out.println("Programming Language: " + developer.getProgrammingLanguage());
+        System.out.println("Total Salary: $" + developer.calculateSalary());
+    }
+}
