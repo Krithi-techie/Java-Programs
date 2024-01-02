@@ -1,0 +1,34 @@
+import java.io.File;
+import java.io.FilenameFilter;
+
+public class FileExtensionFilter {
+
+    public static void main(String[] args) {
+        String folderPath = "C:\\Users\\Krithiga\\Documents"; 
+        String extension = "txt"; 
+        File folder = new File(folderPath);
+        File[] files = folder.listFiles(new ExtensionFilter(extension));
+
+        if (files != null) {
+            System.out.println("Files with extension '" + extension + "' in folder '" + folderPath + "':");
+            for (File file : files) {
+                System.out.println(file.getName());
+            }
+        } else {
+            System.out.println("Invalid folder path or no files with the specified extension found.");
+        }
+    }
+}
+
+class ExtensionFilter implements FilenameFilter {
+    private String extension;
+
+    public ExtensionFilter(String extension) {
+        this.extension = extension;
+    }
+
+    @Override
+    public boolean accept(File dir, String name) {
+        return name.endsWith("." + extension);
+    }
+}
