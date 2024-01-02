@@ -1,0 +1,65 @@
+class PrimeNumberThread implements Runnable {
+    public void run() {
+        System.out.println("Prime Numbers (0 to 10) in Thread-1:");
+
+        for (int i = 0; i <= 10; i++) {
+            if (isPrime(i)) {
+                System.out.println(Thread.currentThread().getName() + ": " + i);
+            }
+        }
+    }
+
+    private boolean isPrime(int num) {
+        if (num <= 1) {
+            return false;
+        }
+        for (int i = 2; i <= Math.sqrt(num); i++) {
+            if (num % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
+class PalindromeNumberThread implements Runnable {
+    public void run() {
+        System.out.println("Palindrome Numbers (10 to 50) in Thread-2:");
+
+        for (int i = 10; i <= 50; i++) {
+            if (isPalindrome(i)) {
+                System.out.println(Thread.currentThread().getName() + ": " + i);
+            }
+        }
+    }
+
+    private boolean isPalindrome(int num) {
+        int originalNum = num;
+        int reverse = 0;
+
+        while (num > 0) {
+            int remainder = num % 10;
+            reverse = reverse * 10 + remainder;
+            num /= 10;
+        }
+
+        return originalNum == reverse;
+    }
+}
+
+public class SequentialThreadExecution {
+    public static void main(String[] args) {
+        PrimeNumberThread primeThread = new PrimeNumberThread();
+        PalindromeNumberThread palindromeThread = new PalindromeNumberThread();
+        Thread t1 = new Thread(primeThread, "Thread-1");
+        Thread t2 = new Thread(palindromeThread, "Thread-2");
+
+        t1.start();
+        try {
+            t1.join(); 
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        t2.start();
+    }
+}
